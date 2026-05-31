@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login — Quiz Buddy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green-light: #e9f5e9; --green-mid: #c2e0c2; --green-accent: #4caf50;
+      --black: #111111; --white: #ffffff; --gray: #888; --input-bg: #f5f5f5;
+    }
+    body { font-family: 'DM Sans', sans-serif; background: #f0f0f0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .card { display: flex; width: 860px; min-height: 540px; background: var(--white); border-radius: 28px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.12); animation: fadeUp 0.6s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .left { flex: 0 0 380px; padding: 52px 44px 40px; display: flex; flex-direction: column; justify-content: space-between; }
+    .left-inner { display: flex; flex-direction: column; }
+    .brand { font-family: 'Fraunces', serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; color: var(--black); text-transform: uppercase; margin-bottom: 32px; }
+    h1 { font-family: 'Fraunces', serif; font-size: 34px; font-weight: 900; color: var(--black); line-height: 1.15; margin-bottom: 10px; }
+    .subtitle { font-size: 13.5px; color: var(--gray); line-height: 1.6; margin-bottom: 30px; }
+    .subtitle strong { color: var(--black); font-weight: 600; }
+    .form { display: flex; flex-direction: column; gap: 12px; }
+    .input-wrap { position: relative; display: flex; align-items: center; }
+    .input-wrap input {
+      width: 100%; padding: 14px 18px; border: 1.5px solid #e8e8e8; border-radius: 50px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--black);
+      background: var(--input-bg); outline: none; transition: border-color 0.2s, background 0.2s;
+    }
+    .input-wrap input::placeholder { color: #aaa; }
+    .input-wrap input:focus { border-color: var(--black); background: var(--white); }
+    .input-wrap .eye-btn { position: absolute; right: 16px; background: none; border: none; cursor: pointer; color: #aaa; display: flex; align-items: center; padding: 0; transition: color 0.2s; }
+    .input-wrap .eye-btn:hover { color: var(--black); }
+    .row-forgot { display: flex; justify-content: flex-end; margin-top: -4px; margin-bottom: 4px; }
+    .row-forgot a { font-size: 12.5px; color: var(--gray); text-decoration: none; transition: color 0.2s; }
+    .row-forgot a:hover { color: var(--black); }
+    .btn-login { width: 100%; padding: 15px; border-radius: 50px; border: none; background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; margin-top: 4px; }
+    .btn-login:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.18); }
+    .btn-login:active { transform: translateY(0); }
+    .divider { display: flex; align-items: center; gap: 12px; margin: 18px 0 14px; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #e8e8e8; }
+    .divider span { font-size: 12.5px; color: var(--gray); white-space: nowrap; }
+    .socials { display: flex; justify-content: center; gap: 14px; }
+    .social-btn { width: 46px; height: 46px; border-radius: 50%; background: var(--black); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s, background 0.2s; }
+    .social-btn:hover { transform: translateY(-2px); background: #333; }
+    .social-btn svg { width: 18px; height: 18px; fill: white; }
+    .footer-text { font-size: 13px; color: var(--gray); text-align: center; margin-top: 24px; }
+    .footer-text a { color: var(--black); font-weight: 600; text-decoration: none; border-bottom: 1.5px solid var(--black); padding-bottom: 1px; transition: opacity 0.2s; }
+    .footer-text a:hover { opacity: 0.6; }
+    .right { flex: 1; background: var(--green-light); border-radius: 20px; margin: 10px 10px 10px 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 32px 28px 36px; position: relative; overflow: hidden; }
+    .right::before { content: ''; position: absolute; top: -60px; right: -60px; width: 220px; height: 220px; border-radius: 50%; background: var(--green-mid); opacity: 0.5; }
+    .right::after  { content: ''; position: absolute; bottom: 100px; left: -40px; width: 140px; height: 140px; border-radius: 50%; background: var(--green-mid); opacity: 0.4; }
+    .illus-wrap { position: relative; width: 100%; flex: 1; display: flex; align-items: center; justify-content: center; }
+    .figure-svg { width: 190px; position: relative; z-index: 2; animation: float 4s ease-in-out infinite; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .avatar { position: absolute; border-radius: 50%; border: 3px solid white; overflow: hidden; background: #ddd; z-index: 3; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+    .avatar.a1 { width: 52px; height: 52px; top: 20px; left: 24px; animation: float 4s ease-in-out infinite 0.5s; }
+    .avatar.a2 { width: 44px; height: 44px; top: 40px; right: 18px; animation: float 4s ease-in-out infinite 1s; }
+    .avatar svg { width: 100%; height: 100%; }
+    .task-card { position: absolute; bottom: 32px; left: 16px; background: white; border-radius: 16px; padding: 14px 16px; width: 160px; box-shadow: 0 8px 28px rgba(0,0,0,0.1); z-index: 4; animation: slideIn 0.7s 0.3s ease both; }
+    @keyframes slideIn { from { opacity:0; transform: translateX(-16px); } to { opacity:1; transform: translateX(0); } }
+    .task-card .tc-title { font-size: 13px; font-weight: 700; color: var(--black); margin-bottom: 2px; }
+    .task-card .tc-sub   { font-size: 11px; color: var(--gray); margin-bottom: 10px; }
+    .tc-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .ring { width: 34px; height: 34px; flex-shrink: 0; }
+    .ring circle { fill: none; stroke-width: 4; stroke-linecap: round; }
+    .ring .track { stroke: #e8e8e8; }
+    .ring .fill  { stroke: var(--green-accent); stroke-dasharray: 84; stroke-dashoffset: 13; transform: rotate(-90deg); transform-origin: center; }
+    .ring-label { position: absolute; font-size: 9px; font-weight: 700; color: var(--black); left: 50%; top: 50%; transform: translate(-50%,-50%); }
+    .ring-wrap { position: relative; width: 34px; height: 34px; }
+    .tc-tag { display: inline-block; padding: 4px 12px; border-radius: 50px; border: 1.5px solid #ddd; font-size: 11px; font-weight: 600; color: var(--black); }
+    .dots { display: flex; gap: 6px; margin-bottom: 16px; z-index: 2; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-mid); }
+    .dot.active { background: var(--black); width: 22px; border-radius: 4px; }
+    .tagline { text-align: center; font-size: 15px; color: #444; line-height: 1.55; z-index: 2; }
+    .tagline strong { color: var(--black); font-weight: 700; }
+    @media (max-width: 700px) {
+      .card { flex-direction: column; width: 94vw; min-height: auto; }
+      .right { margin: 0 10px 10px; min-height: 280px; }
+      .left { padding: 40px 30px 30px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="left">
+    <div class="left-inner">
+      <div class="brand">Quiz Buddy</div>
+      <h1>Welcome back!</h1>
+      <p class="subtitle">Simplify your workflow and boost your productivity with <strong>Quiz Buddy</strong>. Get started for free.</p>
+
+      <!-- ✅ Your original login form — method="post", name attributes preserved -->
+    <form class="form" method="post">
+
+  <div class="input-wrap">
+    <input
+      type="text"
+      name="username"
+      placeholder="Username"
+      required
+      autocomplete="off">
+  </div>
+
+  <div class="input-wrap">
+    <input
+      type="password"
+      name="password"
+      id="pwd"
+      placeholder="Password"
+      required>
+
+    <button
+      type="button"
+      class="eye-btn"
+      onclick="togglePwd()">
+      <svg id="eye-icon"
+           xmlns="http://www.w3.org/2000/svg"
+           width="18"
+           height="18"
+           viewBox="0 0 24 24"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="row-forgot">
+    <a href="#">Forgot Password?</a>
+  </div>
+
+  <button type="submit" class="btn-login">
+    Login
+  </button>
+
+</form>
+
+      <div class="divider"><span>or continue with</span></div>
+      <div class="socials">
+        <button class="social-btn" aria-label="Google" type="button">
+          <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        </button>
+        <button class="social-btn" aria-label="Apple" type="button">
+          <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        </button>
+        <button class="social-btn" aria-label="Facebook" type="button">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </button>
+      </div>
+    </div>
+    <p class="footer-text">Not a member? <a href="/signup">Create account</a></p>
+  </div>
+
+  <!-- RIGHT panel -->
+  <div class="right">
+    <div class="illus-wrap">
+      <div class="avatar a1">
+        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><rect width="52" height="52" fill="#a8d5a2"/><circle cx="26" cy="20" r="10" fill="#fff"/><ellipse cx="26" cy="42" rx="14" ry="10" fill="#fff"/></svg>
+      </div>
+      <div class="avatar a2">
+        <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><rect width="44" height="44" fill="#f5c8a0"/><circle cx="22" cy="17" r="8" fill="#fff"/><ellipse cx="22" cy="36" rx="12" ry="9" fill="#fff"/></svg>
+      </div>
+      <svg class="figure-svg" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="80" rx="72" ry="58" fill="#c8e6c8" opacity="0.6"/>
+        <ellipse cx="100" cy="155" rx="36" ry="30" fill="#4caf50"/>
+        <path d="M100 148 c-2-4-8-4-8 0 c0 3 4 6 8 9 c4-3 8-6 8-9 c0-4-6-4-8 0z" fill="white" opacity="0.8"/>
+        <circle cx="100" cy="100" r="22" fill="#f5c0a0"/>
+        <ellipse cx="100" cy="82" rx="22" ry="10" fill="#2d2d2d"/>
+        <ellipse cx="82" cy="90" rx="6" ry="12" fill="#2d2d2d"/>
+        <path d="M92 100 q3 3 6 0" stroke="#2d2d2d" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M102 100 q3 3 6 0" stroke="#2d2d2d" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M94 108 q6 5 12 0" stroke="#2d2d2d" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M66 148 q-24-10-28-28" stroke="#4caf50" stroke-width="14" fill="none" stroke-linecap="round"/>
+        <circle cx="38" cy="120" r="8" fill="#f5c0a0"/>
+        <path d="M134 148 q24-10 28-28" stroke="#4caf50" stroke-width="14" fill="none" stroke-linecap="round"/>
+        <circle cx="162" cy="120" r="8" fill="#f5c0a0"/>
+        <path d="M70 182 q30-10 60 0" stroke="#2d2d2d" stroke-width="12" fill="none" stroke-linecap="round"/>
+        <circle cx="68" cy="182" r="9" fill="#f5c0a0"/>
+        <circle cx="132" cy="182" r="9" fill="#f5c0a0"/>
+        <circle cx="56" cy="68" r="3" fill="#4caf50" opacity="0.7"/>
+        <circle cx="148" cy="62" r="4" fill="#4caf50" opacity="0.5"/>
+        <circle cx="160" cy="90" r="2.5" fill="#4caf50" opacity="0.6"/>
+        <circle cx="44" cy="105" r="2" fill="#4caf50" opacity="0.5"/>
+      </svg>
+      <div class="task-card">
+        <div class="tc-title">Quiz Progress</div>
+        <div class="tc-sub">10 Questions</div>
+        <div class="tc-progress">
+          <div class="ring-wrap">
+            <svg class="ring" viewBox="0 0 34 34">
+              <circle class="track" cx="17" cy="17" r="13.5"/>
+              <circle class="fill"  cx="17" cy="17" r="13.5"/>
+            </svg>
+            <span class="ring-label">84%</span>
+          </div>
+        </div>
+        <span class="tc-tag">Learning</span>
+      </div>
+    </div>
+    <div class="dots"><div class="dot"></div><div class="dot active"></div>
+</div>
+    <p class="tagline">Make learning fun and effective<br>with <strong>Quiz Buddy</strong></p>
+  </div>
+</div>
+
+<script>
+  function togglePwd() {
+    const input = document.getElementById('pwd');
+    const icon = document.getElementById('eye-icon');
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.innerHTML = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`;
+    } else {
+      input.type = 'password';
+      icon.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+    }
+  }
+</script>
+</body>
+</html>

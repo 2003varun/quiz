@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="leaderboard-container">
+    <div class="leaderboard-card">
+        <div class="leaderboard-header">
+            <h1>🏆 Leaderboard</h1>
+            <p>Top Quiz Performers</p>
+        </div>
+
+        <ul class="leaderboard-list">
+            {% for user, score in data %}
+            <li class="leaderboard-item">
+                <div class="player-info">
+                    <span class="rank">#{{ loop.index }}</span>
+                    <span class="username">{{ user }}</span>
+                </div>
+                <span class="score">{{ score }} pts</span>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="leaderboard-footer">
+            <a href="/quiz" class="play-btn">Play Again</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
